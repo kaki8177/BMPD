@@ -184,13 +184,13 @@
 				<label>1-1. 공정 (Process) : *</label>
 				<select id="process" onchange="filterDropdowns()">
                 <option value="-">-</option>
+                <option value="JRS">JRS</option>
                 <option value="CCW">CCW</option>
                 <option value="CIT">CIT</option>
                 <option value="FTW">FTW</option>
                 <option value="LFW">LFW</option>
                 <option value="ISI">ISI</option>
                 <option value="JRI">JRI</option>
-                <option value="JRS">JRS</option>
                 <option value="SMW">SMW</option>
                 <option value="CRW">CRW</option>
                 <option value="ELF">ELF</option>
@@ -278,6 +278,10 @@
 
     // 1. 마스터 호기 데이터
     const HOGI_MASTER = {
+        "JRS": [
+                "1호기",
+                "2호기"
+        ],
         "CCW": [
                 "1호기",
                 "2호기"
@@ -299,10 +303,6 @@
                 "2호기"
         ],
         "JRI": [
-                "1호기",
-                "2호기"
-        ],
-        "JRS": [
                 "1호기",
                 "2호기"
         ],
@@ -330,6 +330,9 @@
 
     // 2. [업데이트] 마스터 비전 종류 데이터 (공정별 완벽 매핑 및 접두사 부여)
     const VISION_MASTER = {
+        "JRS": [
+                "[2D] #33 JRS 검사"
+        ],
         "CCW": [
                 "[센서] #1 양극 집전판 오투입 검사",
                 "[2D] #2 양극 집전판 원자재 검사",
@@ -363,9 +366,6 @@
                 "[센서] #18 Insulator 유무 검사",
                 "[2D] #30 Side 검사",
                 "[3D] #102 Lid 삽입성 검사(3D)"
-        ],
-        "JRS": [
-                "[2D] #33 JRS 검사"
         ],
         "SMW": [
                 "[2D] #19 SMW 용접 전 검사",
