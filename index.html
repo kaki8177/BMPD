@@ -321,65 +321,65 @@
     // 2. [업데이트] 마스터 비전 종류 데이터 (공정별 완벽 매핑 및 접두사 부여)
     const VISION_MASTER = {
         "CCW": [
-                "#1 양극 집전판 오투입 검사",
-                "#2 양극 집전판 원자재 검사",
-                "#3 J/R 양극 상태 검사",
-                "#4 CCW 용접 전 검사",
-                "#5 CCW 용접 후 검사"
+                "[센서] #1 양극 집전판 오투입 검사",
+                "[2D] #2 양극 집전판 원자재 검사",
+                "[2D] #3 J/R 양극 상태 검사",
+                "[2D] #4 CCW 용접 전 검사",
+                "[2D] #5 CCW 용접 후 검사"
         ],
         "CIT": [
-                "#6 Taping 검사",
-                "#7 J/R 음극 상태 검사"
+                "[2D] #6 Taping 검사",
+                "[2D] #7 J/R 음극 상태 검사"
         ],
         "FTW": [
-                "#29 FTW 용접 후 검사"
+                "[2D] #29 FTW 용접 후 검사"
         ],
         "LFW": [
-                "#8 음극 Lid 원자재 검사",
-                "#9 음극 Lid 용접 전 검사(동심도)",
-                "#10 LFW 음극 용접 후 검사"
+                "[2D] #8 음극 Lid 원자재 검사",
+                "[센서] #9 음극 Lid 용접 전 검사(동심도)",
+                "[2D] #10 LFW 음극 용접 후 검사"
         ],
         "ISI": [
-                "#11 Insulator 원자재 검사",
-                "#12 Insulator 삽입성 검사",
-                "#13 Can 원자재 외부 리벳 검사",
-                "#14 Can 원자재 내부 리벳 검사",
-                "#15 Can 원자재 개구부 검사",
-                "#16 Can 내벽 검사",
-                "#17 Can 원자재 총고 검사",
-                "#101 Can 내부 Rivet 평탄도 검사(3D)"
+                "[2D] #11 Insulator 원자재 검사",
+                "[센서] #12 Insulator 삽입성 검사",
+                "[2D] #13 Can 원자재 외부 리벳 검사",
+                "[2D] #14 Can 원자재 내부 리벳 검사",
+                "[2D] #15 Can 원자재 개구부 검사",
+                "[2D] #16 Can 내벽 검사",
+                "[센서] #17 Can 원자재 총고 검사",
+                "[3D] #101 Can 내부 Rivet 평탄도 검사(3D)"
         ],
         "JRI": [
-                "#18 Insulator 유무 검사",
-                "#30 Side 검사",
-                "#102 Lid 삽입성 검사(3D)"
+                "[센서] #18 Insulator 유무 검사",
+                "[2D] #30 Side 검사",
+                "[3D] #102 Lid 삽입성 검사(3D)"
         ],
         "SMW": [
-                "#19 SMW 용접 전 검사",
-                "#20 SMW 용접 후 검사"
+                "[2D] #19 SMW 용접 전 검사",
+                "[2D] #20 SMW 용접 후 검사"
         ],
         "CRW": [
-                "#21 Reform 전 J/R Core 분리막 검사",
-                "#22 Reform 후 J/R Core 분리막 검사",
-                "#103 Knurl 상태 및 이물 검사-1(3D)",
-                "#104 Knurl 상태 및 이물 검사-2(3D)",
-                "#23 CRW 용접 후 검사"
+                "[2D] #21 Reform 전 J/R Core 분리막 검사",
+                "[2D] #22 Reform 후 J/R Core 분리막 검사",
+                "[3D] #103 Knurl 상태 및 이물 검사-1(3D)",
+                "[3D] #104 Knurl 상태 및 이물 검사-2(3D)",
+                "[2D] #23 CRW 용접 후 검사"
         ],
         "ELF": [
-                "#24 주액 후 J/R Core 분리막 검사"
+                "[2D] #24 주액 후 J/R Core 분리막 검사"
         ],
         "LHS": [
-                "#25 Plug 원자재 검사",
-                "#27 LHS 용접 전 검사",
-                "#28 LHS 용접 후 검사",
-                "#105 Cell 총고 검사(3D)"
+                "[2D] #25 Plug 원자재 검사",
+                "[2D] #27 LHS 용접 전 검사",
+                "[2D] #28 LHS 용접 후 검사",
+                "[3D] #105 Cell 총고 검사(3D)"
         ],
         "EOL": [
-                "Side 측면 외경 검사-1(3D)",
-                "Side 측면 외경 검사-2(3D)",
-                "Side 측면 외경 검사-3(3D)",
-                "Side 측면 외경 검사-4(3D)",
-                "평탄도·총고 검사(3D)"
+                "[3D] Side 측면 외경 검사-1(3D)",
+                "[3D] Side 측면 외경 검사-2(3D)",
+                "[3D] Side 측면 외경 검사-3(3D)",
+                "[3D] Side 측면 외경 검사-4(3D)",
+                "[3D] 평탄도·총고 검사(3D)"
         ]
 };
 
@@ -415,25 +415,23 @@
             });
         }
 
-        // 2. 비전 종류(Vision Type) 동적 매핑
+        // 2. 검사기(Vision Type) — 2D / 3D / 센서로 묶어서 표시
         visionSelect.innerHTML = '<option value="-">-</option>';
-        if (process !== "-" && VISION_MASTER[process]) {
-            VISION_MASTER[process].forEach(name => {
+        let list = [];
+        if (process !== "-" && VISION_MASTER[process]) list = VISION_MASTER[process];
+        else if (process === "-") Object.keys(VISION_MASTER).forEach(k => list = list.concat(VISION_MASTER[k]));
+        ["2D", "3D", "센서"].forEach(t => {
+            const items = list.filter(n => n.startsWith("[" + t + "]"));
+            if (!items.length) return;
+            const g = document.createElement('optgroup');
+            g.label = t;
+            items.forEach(name => {
                 const opt = document.createElement('option');
                 opt.value = name; opt.innerText = name;
-                visionSelect.appendChild(opt);
+                g.appendChild(opt);
             });
-        } else if (process === "-") {
-            Object.keys(VISION_MASTER).forEach(key => {
-                VISION_MASTER[key].forEach(name => {
-                    if (!Array.from(visionSelect.options).some(o => o.value === name)) {
-                        const opt = document.createElement('option');
-                        opt.value = name; opt.innerText = name;
-                        visionSelect.appendChild(opt);
-                    }
-                });
-            });
-        }
+            visionSelect.appendChild(g);
+        });
     }
 
     function getFormattedTime() {
